@@ -1,0 +1,264 @@
+
+<!doctype html>
+<html lang="zh-Hant">  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>拾光 PETS｜寵物認養</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #fefdfd; color: #1a1a1a; }
+    .navbar { background-color: #ffffff; }
+    .navbar-brand { color: #C5B3D3 !important; font-weight: bold; }
+    .paw { color: #F5CBCB; }
+    .btn-main { background-color: #C5B3D3; color: white; border: 0; }
+    .btn-main:hover { background-color: #ffe2e2; color: white; }
+    .btn-orange { background-color: #F5CBCB; color: white; border: 0; }
+    .btn-orange:hover { background-color: #C5B3D3; color: white; }
+    .hero { background: linear-gradient(rgba(244, 212, 231, 0.76), rgba(66, 45, 60, 0.76)), url('https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); background-size: cover; background-position: center; color: white; padding: 90px 0; }
+    .hero h1 { font-size: 46px; font-weight: bold; }
+    .section-title { color: #C5B3D3; font-weight: bold; }
+    .pet-card { border: 0; box-shadow: 0 3px 12px rgba(0,0,0,.12); height: 100%; }
+    .pet-card img { height: 210px; object-fit: cover; }
+    .pet-card:hover { transform: translateY(-4px); transition: .2s; }
+    .pet-tag { background-color: #fff7ff; color: #C5B3D3; font-size: 13px; }
+    .page { display: none; }
+    .page.active { display: block; }
+    .detail-photo { width: 100%; height: 390px; object-fit: cover; border-radius: 10px; }
+    .info-box { background-color: #ffffff; border-radius: 10px; padding: 25px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+    .footer-box { background-color: #fef8f8; }
+    .small-note { font-size: 14px; color: #6c757d; }
+    #messageBox { display: none; position: fixed; right: 20px; bottom: 20px; z-index: 10; }
+    @media (max-width: 576px) { .hero h1 { font-size: 34px; } .detail-photo { height: 260px; } }
+   .btn-outline-main {
+  color: #a98fbd;
+  border-color: #C5B3D3;
+  background-color: white;
+}
+
+.btn-outline-main:hover {
+  color: white;
+  border-color: #C5B3D3;
+  background-color: #C5B3D3;
+}
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg border-bottom sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#" id="homeLink"><span class="paw">♥</span> 拾光 PETS</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#" id="petsLink">認識牠們</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="guideLink">領養指南</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="aboutLink">關於我們</a></li>
+          <li class="nav-item ms-lg-2"><button class="btn btn-main btn-sm" id="surrenderLink">我要送養</button></li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0"><button class="btn btn-outline-main btn-sm" id="loginLink">登入／註冊</button></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- 首頁 -->
+    <section class="page active" id="homePage">
+      <div class="hero text-center"><div class="container"><p class="mb-2">A HOME IS WAITING</p><h1>每一次相遇，都是回家的開始</h1><p class="lead">找到正在等待你的牠，給彼此一個溫暖的家</p><button class="btn btn-orange px-4" id="lookPetsBtn">看看正在等待的牠們</button></div></div>
+      <div class="container py-5" id="petsArea">
+        <div class="row align-items-end mb-3"><div class="col-md-7"><p class="paw fw-bold mb-1">MEET YOUR MATCH</p><h2 class="section-title">今天，誰在等你？</h2></div><div class="col-md-5"><p class="small-note mb-0">選擇地區和種類，找到適合成為家人的毛孩</p></div></div>
+        <div class="card p-3 mb-4"><div class="row g-2 align-items-end"><div class="col-md-4"><label class="form-label">所在地區</label><select class="form-select" id="areaSelect"><option value="全部">全台灣</option><option value="北部">北部</option><option value="中部">中部</option><option value="南部">南部</option></select></div><div class="col-md-4"><label class="form-label">動物種類</label><select class="form-select" id="typeSelect"><option value="全部">不限</option><option value="狗">狗狗</option><option value="貓">貓咪</option><option value="兔">兔子</option><option value="烏龜">烏龜</option><option value="鳥">鳥類</option><option value="鼠">鼠類</option></select></div><div class="col-md-4"><button class="btn btn-main w-100" id="searchBtn">開始尋找</button></div></div></div>
+        <p>共有 <strong class="paw" id="petCount">6</strong> 位毛孩符合條件</p>
+        <div class="row g-4" id="petCards"></div>
+      </div>
+      <div class="footer-box text-center py-5"><div class="container"><h2 class="section-title">準備好讓牠被看見了嗎？</h2><p>填寫送養資料，幫毛孩找到合適的家</p><button class="btn btn-orange" id="homeSurrenderBtn">我想刊登送養</button></div></div>
+    </section>
+
+    <!-- 認養詳情 -->
+    <section class="page py-4" id="detailPage"><div class="container"><button class="btn btn-link text-success ps-0" id="backToHomeBtn">← 返回毛孩列表</button><div class="row g-4 mt-1"><div class="col-lg-7"><img class="detail-photo" id="detailImage" src="" alt="毛孩照片"><div class="info-box mt-4"><h3>送養說明</h3><p id="detailStory" class="mb-0" style="white-space: pre-line;"></p></div></div><div class="col-lg-5"><div class="info-box"><h1 id="detailName"></h1><p class="text-secondary" id="detailPlace"></p><hr><div class="row"><div class="col-6 mb-3"><small class="text-secondary">種類／品種</small><br><span id="detailBreed"></span></div><div class="col-6 mb-3"><small class="text-secondary">性別／年紀</small><br><span id="detailAge"></span></div><div class="col-6 mb-3"><small class="text-secondary">體型</small><br><span id="detailSize"></span></div><div class="col-6 mb-3"><small class="text-secondary">結紮狀態</small><br><span id="detailNeuter"></span></div></div><hr><h5>認養條件</h5><ul id="detailRules"></ul><div class="alert alert-warning small">請先登入會員，再填寫認養申請。送養人會依照毛孩的需求審核資料。</div><button class="btn btn-orange w-100" id="applyBtn">我要認養</button></div></div></div></div></section>
+
+    <!-- 登入註冊 -->
+    <section class="page py-5" id="loginPage"><div class="container" style="max-width:650px"><div class="info-box"><h2 class="section-title">登入／建立帳號</h2><p class="small-note">這個作品使用 localStorage 模擬登入，重新整理網頁後仍會保留名字。</p><form id="loginForm"><div class="mb-3"><label class="form-label">姓名</label><input type="text" class="form-control" id="userName" required></div><div class="mb-3"><label class="form-label">電子信箱</label><input type="email" class="form-control" id="userEmail" required></div><div class="mb-3"><label class="form-label">密碼</label><input type="password" class="form-control" id="userPassword" minlength="8" required></div><div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="agree" required><label class="form-check-label" for="agree">我同意服務條款</label></div><button class="btn btn-main" type="submit">登入／註冊</button></form></div></div></section>
+
+    <!-- 認養表單 -->
+    <section class="page py-5" id="adoptPage"><div class="container" style="max-width:760px"><button class="btn btn-link text-success ps-0" id="backDetailBtn">← 返回認養資訊</button><div class="info-box"><h2 class="section-title">認養申請｜<span id="applyPetName"></span></h2><p class="small-note">請如實填寫，送養人將依資料決定是否進一步聯繫。</p><form id="adoptForm"><div class="row"><div class="col-md-6 mb-3"><label class="form-label">申請人姓名</label><input type="text" class="form-control" id="adoptName" required></div><div class="col-md-6 mb-3"><label class="form-label">手機號碼</label><input type="tel" class="form-control" id="adoptPhone" placeholder="09xx-xxx-xxx" required></div></div><div class="mb-3"><label class="form-label">居住型態</label><select class="form-select" id="homeType" required><option value="">請選擇</option><option>自有住宅</option><option>租屋（已取得飼養同意）</option><option>與家人同住</option></select></div><div class="mb-3"><label class="form-label">想對送養人說</label><textarea class="form-control" id="adoptMessage" rows="5" required placeholder="分享你的飼養經驗與照護安排"></textarea></div><div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="adoptAgree" required><label class="form-check-label" for="adoptAgree">我已閱讀認養條件，並理解認養是長期責任。</label></div><button class="btn btn-orange" type="submit">送出認養申請</button></form></div></div></section>
+
+    <!-- 送養表單 -->
+    <section class="page py-5" id="surrenderPage"><div class="container" style="max-width:760px"><div class="info-box"><h2 class="section-title">刊登送養</h2><p class="small-note">填寫完成後，平台會先確認資料，再協助公開刊登。</p><form id="surrenderForm"><div class="row"><div class="col-md-6 mb-3"><label class="form-label">送養人稱呼</label><input type="text" class="form-control" id="giverName" required></div><div class="col-md-6 mb-3"><label class="form-label">聯絡電話</label><input type="tel" class="form-control" id="giverPhone" required></div></div><div class="row"><div class="col-md-6 mb-3"><label class="form-label">毛孩名字</label><input type="text" class="form-control" id="givePetName" required></div><div class="col-md-6 mb-3"><label class="form-label">種類</label><select class="form-select" id="giveType" required><option value="">請選擇</option><option>狗狗</option><option>貓咪</option><option>其他</option></select></div></div><div class="mb-3"><label class="form-label">送養原因與毛孩狀況</label><textarea class="form-control" id="giveStory" rows="5" required placeholder="請說明年齡、個性、健康／結紮狀況和送養期待"></textarea></div><div class="form-check mb-3"><input class="form-check-input" type="checkbox" id="giveAgree" required><label class="form-check-label" for="giveAgree">我確認以上資料屬實。</label></div><button class="btn btn-orange" type="submit">送出送養審核</button></form></div></div></section>
+
+    <!-- 領養指南 -->
+    <section class="page py-5" id="guidePage"><div class="container"><div class="text-center mb-4"><p class="paw fw-bold">ADOPTION GUIDE</p><h2 class="section-title">領養前的三個步驟</h2></div><div class="row g-4"><div class="col-md-4"><div class="info-box h-100"><h4 class="paw">1. 了解需求</h4><p>閱讀毛孩的年齡、個性、照護需求與送養條件，誠實評估自己的生活。</p></div></div><div class="col-md-4"><div class="info-box h-100"><h4 class="paw">2. 提出申請</h4><p>完整填寫認養表單，讓送養人知道你能提供的照顧與陪伴。</p></div></div><div class="col-md-4"><div class="info-box h-100"><h4 class="paw">3. 見面互動</h4><p>通過申請後安排見面，確認雙方都適應，再一起回家。</p></div></div></div></div></section>
+
+    <!-- 關於我們 -->
+    <section class="page py-5" id="aboutPage"><div class="container text-center" style="max-width:760px"><p class="paw fw-bold">ABOUT SHIGUANG</p><h2 class="section-title">讓每一份陪伴，都有回家的方向。</h2><p class="mt-4 text-secondary lh-lg">拾光PETS 是一個致力於推廣流浪動物領養的平台，希望讓每一隻等待家的毛孩，都能遇見願意陪伴牠一生的人。我們相信，領養不是一時的衝動，而是一份長久的承諾；每一次相遇，都是生命中最珍貴的時光。在這裡，你可以瀏覽各種等待領養的狗狗、貓咪及其他小動物，了解牠們的故事、個性與健康資訊，找到最適合自己的新家人。讓每一次領養，都成為幸福故事的開始。</p><button class="btn btn-main" id="aboutGoHomeBtn">認識正在等待的牠們</button></div></section>
+  </main>
+  <!-- Bootstrap Modal：認養資訊會在首頁直接彈出 -->
+  <div class="modal fade" id="petModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">認養資訊｜<span id="modalName"></span></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body"><div class="row g-4"><div class="col-md-6"><img id="modalImage" class="img-fluid rounded" src="" alt="毛孩照片"><h5 class="mt-4">送養說明</h5><p id="modalStory" style="white-space: pre-line;"></p></div><div class="col-md-6"><p class="text-secondary" id="modalPlace"></p><div class="row small"><div class="col-6 mb-3"><b>種類／品種</b><br><span id="modalBreed"></span></div><div class="col-6 mb-3"><b>性別／年紀</b><br><span id="modalAge"></span></div><div class="col-6 mb-3"><b>體型</b><br><span id="modalSize"></span></div><div class="col-6 mb-3"><b>結紮狀態</b><br><span id="modalNeuter"></span></div></div><hr><h6>認養條件</h6><ul><li>須年滿 20 歲</li><li>需經家人同意</li><li>需簽署認養切結書</li><li>同意後續追蹤</li></ul><div class="alert alert-warning small">請先登入會員，再填寫認養申請。</div></div></div></div>
+        <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button><button type="button" class="btn btn-orange" id="modalApplyBtn">我要認養</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="alert alert-success shadow" id="messageBox"></div>
+
+  <script>
+    // 1. 用陣列存放毛孩資料
+    var pets = [
+      { name: 'Money', type: '狗', area: '北部', place: '新北市 蘆洲區', breed: '德國牧羊犬', sex: '女生', age: '5 歲', size: '中型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1628579550131-a99284d5b330?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: 'Money很親人，叫得來，也會在尿布墊上如廁。\n\n她喜歡有人陪伴，面對陌生人時有點慢熟；原飼主因健康因素無法繼續照顧，希望替她找到願意長久陪伴的家庭。' },
+      { name: '哈比', type: '貓', area: '中部', place: '台中市 北區', breed: '米克斯', sex: '女生', age: '1 歲', size: '小型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '哈比個性溫和，喜歡在窗邊看鳥，也會在你回家時迎接你。希望未來的家可以提供安全的室內環境。' },
+      { name: '頓頓', type: '狗', area: '北部', place: '新北市 林口區', breed: '臘腸犬', sex: '男生', age: '3 歲', size: '小型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1739016020835-ffaec2866417?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '頓頓喜歡規律散步、曬太陽與玩布偶。他對熟悉的人非常撒嬌，也能和個性溫和的狗狗相處。' },
+      { name: '布丁', type: '貓', area: '南部', place: '高雄市 左營區', breed: '橘貓', sex: '女生', age: '3 歲', size: '小型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1707363529306-f30da1adb2ee?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '布丁是一隻溫柔又親人的貓咪，剛開始遇到陌生人時會有點害羞，但熟悉環境後就會主動靠近討摸摸。' },
+      { name: '麻糬', type: '貓', area: '北部', place: '台北市 大安區', breed: '暹羅貓', sex: '女生', age: '4 歲', size: '中型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1568309386325-ef86f13ac533?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '麻糬有自己的步調，需要一點時間適應新環境。熟悉以後，他會靜靜待在你身邊。' },
+      { name: '希八', type: '狗', area: '中部', place: '彰化市', breed: '柴犬', sex: '男生', age: '8 個月', size: '中型', neuter: '尚未結紮', image: 'https://images.unsplash.com/photo-1704895644167-4f00edca67b6?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '希八是精力旺盛的少年犬，喜歡探索與學習。希望未來的家人能固定陪他散步和玩耍。' },
+      { name: '奇奇', type: '貓', area: '南部', place: '台南市 永康區', breed: '米克斯', sex: '女生', age: '2 歲', size: '小型', neuter: '已結紮', image: 'https://images.unsplash.com/photo-1626602411112-10742f9a3ab8?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '奇奇很喜歡被拍屁屁，也習慣使用貓砂。她的個性溫柔，期待一個能好好照顧她的家。' },
+      { name: '雪球', type: '兔', area: '北部', place: '桃園市 中壢區', breed: '侏儒兔', sex: '男生', age: '1 歲', size: '小型', neuter: '未結紮', image: 'https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=900&q=80', text: '雪球喜歡吃牧草和青菜，個性安靜但會好奇地靠近人。希望新家能提供足夠活動空間。' },
+      { name: '米米', type: '兔', area: '北部', place: '新竹市 香山區', breed: '垂耳兔', sex: '男生', age: '3 歲', size: '小型', neuter: '未結紮', image: 'https://images.unsplash.com/photo-1535241749838-299277b6305f?q=80&w=892&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '米米是一隻活潑又好奇的小兔子，喜歡探索周圍環境，也喜歡和人互動。' },
+      { name: '綠豆', type: '烏龜', area: '中部', place: '台中市 南屯區', breed: '巴西龜', sex: '未知', age: '3 歲', size: '小型', neuter: '不適用', image: 'https://images.unsplash.com/photo-1758569166089-9dc91d01d16a?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '綠豆狀況健康，平常喜歡曬背和游泳。希望新飼主願意了解水質與燈光照護。' },
+      { name: '啾啾', type: '鳥', area: '南部', place: '高雄市 三民區', breed: '玄鳳鸚鵡', sex: '未知', age: '2 歲', size: '小型', neuter: '不適用', image: 'https://images.unsplash.com/photo-1615827453817-128e639ba2cf?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', text: '啾啾愛唱歌，也喜歡和人互動。希望新家能每天給牠安全的放風時間與陪伴。' },
+      { name: '花生', type: '鼠', area: '北部', place: '台北市 信義區', breed: '黃金鼠', sex: '男生', age: '8 個月', size: '迷你', neuter: '不適用', image: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=900&q=80', text: '花生喜歡跑滾輪和躲在小屋裡，是個活潑的小傢伙。希望找到願意耐心照顧牠的主人。' }
+    ];
+
+    var currentPet = null;
+    var nextPage = '';
+
+    // 2. 顯示指定頁面（用 classList 做簡單換頁）
+    function showPage(pageId) {
+      var pages = document.getElementsByClassName('page');
+      for (var i = 0; i < pages.length; i++) { pages[i].classList.remove('active'); }
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // 3. 依篩選條件建立毛孩卡片
+    function showPets() {
+      var area = document.getElementById('areaSelect').value;
+      var type = document.getElementById('typeSelect').value;
+      var cards = document.getElementById('petCards');
+      var count = 0;
+      cards.innerHTML = '';
+
+      for (var i = 0; i < pets.length; i++) {
+        if ((area == '全部' || pets[i].area == area) && (type == '全部' || pets[i].type == type)) {
+          count++;
+          cards.innerHTML += '<div class="col-md-6 col-lg-4"><div class="card pet-card">' +
+            '<img src="' + pets[i].image + '" class="card-img-top" alt="' + pets[i].name + '">' +
+            '<div class="card-body"><span class="badge pet-tag">' + pets[i].type + '・' + pets[i].area + '</span>' +
+            '<h3 class="card-title mt-2">' + pets[i].name + '</h3><p class="small text-secondary">' + pets[i].sex + '　·　' + pets[i].age + '　·　' + pets[i].breed + '</p>' +
+            '<p class="card-text">' + pets[i].text.substring(0, 42) + '...</p>' +
+            '<button class="btn btn-main w-100" onclick="openDetail(' + i + ')">查看認養資訊</button></div></div></div>';
+        }
+      }
+      document.getElementById('petCount').innerHTML = count;
+    }
+
+    // 4. 把資料放到 Bootstrap Modal，直接在首頁彈出認養資訊
+    function openDetail(number) {
+      currentPet = pets[number];
+      document.getElementById('modalImage').src = currentPet.image;
+      document.getElementById('modalName').innerHTML = currentPet.name;
+      document.getElementById('modalPlace').innerHTML = '⌖ ' + currentPet.place;
+      document.getElementById('modalBreed').innerHTML = currentPet.type + '／' + currentPet.breed;
+      document.getElementById('modalAge').innerHTML = currentPet.sex + '／' + currentPet.age;
+      document.getElementById('modalSize').innerHTML = currentPet.size;
+      document.getElementById('modalNeuter').innerHTML = currentPet.neuter;
+      document.getElementById('modalStory').innerHTML = currentPet.text;
+      var myModal = new bootstrap.Modal(document.getElementById('petModal'));
+      myModal.show();
+    }
+
+    // 5. 顯示右下角訊息
+    function showMessage(text) {
+      var box = document.getElementById('messageBox');
+      box.innerHTML = text;
+      box.style.display = 'block';
+      setTimeout(function () { box.style.display = 'none'; }, 3500);
+    }
+
+    // 6. 所有按鈕的事件監聽
+    document.getElementById('homeLink').addEventListener('click', function (event) { event.preventDefault(); showPage('homePage'); });
+    document.getElementById('petsLink').addEventListener('click', function (event) { event.preventDefault(); showPage('homePage'); setTimeout(function () { document.getElementById('petsArea').scrollIntoView(); }, 100); });
+    document.getElementById('lookPetsBtn').addEventListener('click', function () { document.getElementById('petsArea').scrollIntoView({ behavior: 'smooth' }); });
+    document.getElementById('searchBtn').addEventListener('click', showPets);
+    document.getElementById('guideLink').addEventListener('click', function (event) { event.preventDefault(); showPage('guidePage'); });
+    document.getElementById('aboutLink').addEventListener('click', function (event) { event.preventDefault(); showPage('aboutPage'); });
+    document.getElementById('aboutGoHomeBtn').addEventListener('click', function () { showPage('homePage'); });
+    document.getElementById('backToHomeBtn').addEventListener('click', function () { showPage('homePage'); });
+    document.getElementById('backDetailBtn').addEventListener('click', function () { showPage('detailPage'); });
+    document.getElementById('surrenderLink').addEventListener('click', function () { showPage('surrenderPage'); });
+    document.getElementById('homeSurrenderBtn').addEventListener('click', function () { showPage('surrenderPage'); });
+
+    // 7. 登入資料存到 localStorage
+    document.getElementById('loginLink').addEventListener('click', function () { showPage('loginPage'); });
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var name = document.getElementById('userName').value;
+      localStorage.setItem('petUserName', name);
+      document.getElementById('loginLink').innerHTML = name + ' 的帳戶';
+      showMessage('登入成功，歡迎 ' + name + '！');
+      if (nextPage == 'adopt') { showAdoptForm(); } else { showPage('homePage'); }
+    });
+
+    // 8. 按下認養：未登入先去登入；已登入直接開認養表單
+    document.getElementById('applyBtn').addEventListener('click', function () {
+      if (localStorage.getItem('petUserName') == null) {
+        nextPage = 'adopt';
+        showMessage('請先登入會員，再提出認養申請。');
+        showPage('loginPage');
+      } else {
+        showAdoptForm();
+      }
+    });
+
+    // Modal 裡的「我要認養」按鈕，功能和詳情頁按鈕相同
+    document.getElementById('modalApplyBtn').addEventListener('click', function () {
+      var modalElement = document.getElementById('petModal');
+      var modal = bootstrap.Modal.getInstance(modalElement);
+      modal.hide();
+      if (localStorage.getItem('petUserName') == null) {
+        nextPage = 'adopt';
+        showMessage('請先登入會員，再提出認養申請。');
+        showPage('loginPage');
+      } else {
+        showAdoptForm();
+      }
+    });
+
+    function showAdoptForm() {
+      document.getElementById('applyPetName').innerHTML = currentPet.name;
+      document.getElementById('adoptName').value = localStorage.getItem('petUserName');
+      nextPage = '';
+      showPage('adoptPage');
+    }
+
+    // 9. 認養和送養表單送出後，資料存成簡單的陣列
+    document.getElementById('adoptForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var applications = JSON.parse(localStorage.getItem('adoptApplications') || '[]');
+      applications.push({ pet: currentPet.name, name: document.getElementById('adoptName').value });
+      localStorage.setItem('adoptApplications', JSON.stringify(applications));
+      showMessage('已送出 ' + currentPet.name + ' 的認養申請！');
+      showPage('homePage');
+      document.getElementById('adoptForm').reset();
+    });
+
+    document.getElementById('surrenderForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var surrenders = JSON.parse(localStorage.getItem('surrenderApplications') || '[]');
+      surrenders.push({ pet: document.getElementById('givePetName').value, type: document.getElementById('giveType').value });
+      localStorage.setItem('surrenderApplications', JSON.stringify(surrenders));
+      showMessage('送養資料已送出，謝謝你為毛孩多走一步！');
+      document.getElementById('surrenderForm').reset();
+      showPage('homePage');
+    });
+
+    // 10. 網頁一開始先顯示卡片與已登入的名稱
+    showPets();
+    if (localStorage.getItem('petUserName') != null) {
+      document.getElementById('loginLink').innerHTML = localStorage.getItem('petUserName') + ' 的帳戶';
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
